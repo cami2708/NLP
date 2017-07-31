@@ -16,3 +16,11 @@ yTest=y[-100:,]
 model=MultinomialNB()
 model.fit(xTrain, yTrain)
 print "Classification rate for Naive Bayes:", model.score(xTest, yTest)
+
+
+from sklearn.ensemble import AdaBoostClassifier
+
+model2=AdaBoostClassifier()
+model2.fit(xTrain, yTrain)
+print "Classification rate for AdaBoost:", model2.score(xTest, yTest)
+
