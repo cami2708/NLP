@@ -32,7 +32,7 @@ def tokenizer(s):
 	tokens = nltk.tokenize.word_tokenize(s)
 	tokens = [t for t in tokens if len(t) > 2]
 	tokens = [wordNetLemmatizer.lemmatize(t) for t in tokens]
-	tokens = [t for t in tokens if not stopWords]
+	tokens = [t for t in tokens if t not in stopWords]
 	return tokens
 
 wordIndexMap = {}
@@ -77,9 +77,30 @@ for tokens in positiveTokenized:
 	xy = tokensToVector(tokens, 1)
 	data[i,:] = xy
 	i += 1
+for tokens in negativeTokenized:
+	xy = tokensToVector(tokens, 0)
+	data[i,:] = xy
+	i += 1
+
 
 ########Building the model#########
 np.random.shuffle(data)
 
+x = data[:, :-1]
+y = data[:, -1]
 
+xTrain = x[:-100,]
+yTrain = y[:-100,]
+xTest = x[-100:,]
+yTest = y[-100:,]
+
+model = LogisticRegression()
+model.fit(xTrain, yTrain)
+print "Classification rate:", model.score(xTest, yTest)
+
+threshold = 0.6
+for word, index in wordIndexMap.iteritems():
+	weight = model.coef_[0][index]
+	if weight > threshold or weight < -threshold:
+		print word, weight
 
