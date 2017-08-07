@@ -37,7 +37,7 @@ for k, words in trigrams.iteritems():
 	if len(set(words))>1:
 		d = {}
 		n = 0
-		for w in word:
+		for w in words:
 			if w not in d:
 				d[w] = 0
 			d[w] += 1
@@ -69,7 +69,7 @@ def testSpinner():
 	print "Spun:"			
 	print " ".join(tokens.replace(" .", ".").replace(" '", "'")).replace(" ,", ",").replace("$ ", "$").replace(" !", "!")
 
-
+print testSpinner()
 
 
 
